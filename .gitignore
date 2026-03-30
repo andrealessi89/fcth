@@ -1,0 +1,12 @@
+node_modules/
+db/fcth.sqlite
+db/fcth.sqlite-shm
+db/fcth.sqlite-wal
+.env
+uploads/*
+!uploads/.gitkeep
+frontend/node_modules/
+admin/node_modules/
+*.log
+.DS_Store
+Thumbs.db

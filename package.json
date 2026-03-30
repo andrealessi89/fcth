@@ -1,0 +1,25 @@
+{
+  "name": "fcth-full",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "FCTH - Federação Catarinense de Poker Oficial - Backend + CMS",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "migrate": "node db/migrate.js",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build": "npm run build:frontend && npm run build:admin"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0"
+  }
+}
