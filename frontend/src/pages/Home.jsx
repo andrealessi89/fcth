@@ -124,11 +124,22 @@ export default function Home() {
           </AnimatedSection>
           <AnimatedSection delay={0.3}>
             <div className="hero__actions">
-              <Link to="/agenda" className="hero__btn hero__btn--primary">
+              <Link to="/agenda" className="hero__btn hero__btn--primary"
+                style={c.home_hero_btn1_color || c.home_hero_btn1_bg ? {
+                  color: c.home_hero_btn1_color || undefined,
+                  background: c.home_hero_btn1_bg || undefined,
+                } : undefined}
+              >
                 <Calendar size={18} />
                 {c.home_hero_btn1_text || 'Ver Agenda 2026'}
               </Link>
-              <Link to="/sobre-a-federacao" className="hero__btn hero__btn--outline">
+              <Link to="/sobre-a-federacao" className="hero__btn hero__btn--outline"
+                style={c.home_hero_btn2_color || c.home_hero_btn2_bg || c.home_hero_btn2_border ? {
+                  color: c.home_hero_btn2_color || undefined,
+                  background: c.home_hero_btn2_bg || undefined,
+                  borderColor: c.home_hero_btn2_border || undefined,
+                } : undefined}
+              >
                 <Trophy size={18} />
                 {c.home_hero_btn2_text || 'Sobre a Federação'}
               </Link>

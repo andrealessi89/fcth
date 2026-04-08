@@ -14,7 +14,7 @@ const HOME_SECTIONS = [
   {
     id: 'hero',
     title: 'Hero (Banner Principal)',
-    keys: ['home_hero_line1', 'home_hero_title', 'home_hero_line3', 'home_hero_btn1_text', 'home_hero_btn2_text', 'home_hero_image', 'home_hero_image_mobile'],
+    keys: ['home_hero_line1', 'home_hero_title', 'home_hero_line3', 'home_hero_btn1_text', 'home_hero_btn1_color', 'home_hero_btn1_bg', 'home_hero_btn2_text', 'home_hero_btn2_color', 'home_hero_btn2_bg', 'home_hero_btn2_border', 'home_hero_image', 'home_hero_image_mobile'],
     imageKeys: [
       { key: 'home_hero_image', label: 'Imagem de Fundo (Desktop)' },
       { key: 'home_hero_image_mobile', label: 'Imagem de Fundo (Mobile)' },
@@ -219,6 +219,22 @@ export default function ContentEditor() {
                         onChange={e => handleChange(item.content_key, e.target.value)}
                         style={{ minHeight: 150 }}
                       />
+                    ) : item.content_type === 'color' ? (
+                      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                        <input
+                          type="color"
+                          value={getValue(item) || '#ffffff'}
+                          onChange={e => handleChange(item.content_key, e.target.value)}
+                          style={{ width: 48, height: 38, padding: 2, border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', background: 'var(--bg-input)' }}
+                        />
+                        <input
+                          className="form-input"
+                          value={getValue(item)}
+                          onChange={e => handleChange(item.content_key, e.target.value)}
+                          placeholder="#ffffff ou transparent"
+                          style={{ flex: 1 }}
+                        />
+                      </div>
                     ) : (
                       <input
                         className="form-input"
