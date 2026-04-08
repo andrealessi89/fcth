@@ -4,7 +4,7 @@ import { getEvents, createEvent, updateEvent, deleteEvent } from '../services/ap
 
 const emptyEvent = {
   etapa: '', nome: '', cidade: '', local_nome: '', data_display: '',
-  data_fim: '', horario: 'A definir', garantido: '', banner_path: '', descricao: '', ordem: 0, ativo: 1
+  data_fim: '', horario: 'A definir', garantido: '', banner_path: '', grade_path: '', descricao: '', ordem: 0, ativo: 1
 }
 
 export default function EventsList() {
@@ -12,14 +12,15 @@ export default function EventsList() {
   const [modal, setModal] = useState(null) // null | 'new' | event obj
   const [form, setForm] = useState(emptyEvent)
   const [bannerFile, setBannerFile] = useState(null)
+  const [gradeFile, setGradeFile] = useState(null)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
 
   const load = () => getEvents().then(setEvents).catch(console.error)
   useEffect(() => { load() }, [])
 
-  const openNew = () => { setForm(emptyEvent); setBannerFile(null); setModal('new') }
-  const openEdit = (evt) => { setForm({ ...evt }); setBannerFile(null); setModal(evt) }
+  const openNew = () => { setForm(emptyEvent); setBannerFile(null); setGradeFile(null); setModal('new') }
+  const openEdit = (evt) => { setForm({ ...evt }); setBannerFile(null); setGradeFile(null); setModal(evt) }
   const close = () => { setModal(null); setMsg('') }
 
   const handleChange = (field, value) => setForm(f => ({ ...f, [field]: value }))
@@ -32,6 +33,7 @@ export default function EventsList() {
         if (k !== 'id' && v !== null && v !== undefined) fd.append(k, v)
       })
       if (bannerFile) fd.append('banner', bannerFile)
+      if (gradeFile) fd.append('grade', gradeFile)
 
       if (modal === 'new') {
         await createEvent(fd)
@@ -167,6 +169,16 @@ export default function EventsList() {
               <label>Banner (imagem)</label>
               <input type="file" accept="image/*" onChange={e => setBannerFile(e.target.files[0])} style={{color:'var(--text)'}} />
               {form.banner_path && <img src={form.banner_path} className="preview-img" style={{marginTop:'0.5rem'}} />}
+            </div>
+
+            <div className="form-group">
+              <label>Grade do Torneio (PDF)</label>
+              <input type="file" accept=".pdf,application/pdf" onChange={e => setGradeFile(e.target.files[0])} style={{color:'var(--text)'}} />
+              {form.grade_path && (
+                <a href={form.grade_path} target="_blank" rel="noopener noreferrer" style={{color:'var(--gold)', fontSize:'0.8rem', marginTop:'0.25rem', display:'inline-block'}}>
+                  Ver grade atual
+                </a>
+              )}
             </div>
 
             <div className="form-row">

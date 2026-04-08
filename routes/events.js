@@ -4,6 +4,10 @@ import auth from '../middleware/auth.js';
 import upload from '../middleware/upload.js';
 
 const router = Router();
+const eventUpload = upload.fields([
+  { name: 'banner', maxCount: 1 },
+  { name: 'grade', maxCount: 1 },
+]);
 
 // GET /api/events — public
 router.get('/', async (req, res) => {
@@ -38,14 +42,15 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/events — create
-router.post('/', auth, upload.single('banner'), async (req, res) => {
+router.post('/', auth, eventUpload, async (req, res) => {
   try {
     const { etapa, nome, cidade, local_nome, data_display, data_fim, horario, garantido, descricao, ordem, ativo } = req.body;
-    const banner_path = req.file ? `/uploads/${req.file.filename}` : (req.body.banner_path || null);
+    const banner_path = req.files?.banner?.[0] ? `/uploads/${req.files.banner[0].filename}` : (req.body.banner_path || null);
+    const grade_path = req.files?.grade?.[0] ? `/uploads/${req.files.grade[0].filename}` : (req.body.grade_path || null);
 
     const result = await query(
-      'INSERT INTO events (etapa, nome, cidade, local_nome, data_display, data_fim, horario, garantido, banner_path, descricao, ordem, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [etapa, nome, cidade, local_nome, data_display, data_fim, horario || 'A definir', garantido || null, banner_path, descricao || '', parseInt(ordem) || 0, parseInt(ativo) ?? 1]
+      'INSERT INTO events (etapa, nome, cidade, local_nome, data_display, data_fim, horario, garantido, banner_path, grade_path, descricao, ordem, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [etapa, nome, cidade, local_nome, data_display, data_fim, horario || 'A definir', garantido || null, banner_path, grade_path, descricao || '', parseInt(ordem) || 0, parseInt(ativo) ?? 1]
     );
 
     const id = result.insertId;
@@ -58,17 +63,21 @@ router.post('/', auth, upload.single('banner'), async (req, res) => {
 });
 
 // PUT /api/events/:id — update
-router.put('/:id', auth, upload.single('banner'), async (req, res) => {
+router.put('/:id', auth, eventUpload, async (req, res) => {
   try {
     const { etapa, nome, cidade, local_nome, data_display, data_fim, horario, garantido, descricao, ordem, ativo } = req.body;
     let banner_path = req.body.banner_path;
-    if (req.file) {
-      banner_path = `/uploads/${req.file.filename}`;
+    let grade_path = req.body.grade_path;
+    if (req.files?.banner?.[0]) {
+      banner_path = `/uploads/${req.files.banner[0].filename}`;
+    }
+    if (req.files?.grade?.[0]) {
+      grade_path = `/uploads/${req.files.grade[0].filename}`;
     }
 
     await query(
-      'UPDATE events SET etapa=?, nome=?, cidade=?, local_nome=?, data_display=?, data_fim=?, horario=?, garantido=?, banner_path=?, descricao=?, ordem=?, ativo=? WHERE id=?',
-      [etapa, nome, cidade, local_nome, data_display, data_fim, horario || 'A definir', garantido || null, banner_path, descricao || '', parseInt(ordem) || 0, parseInt(ativo) ?? 1, req.params.id]
+      'UPDATE events SET etapa=?, nome=?, cidade=?, local_nome=?, data_display=?, data_fim=?, horario=?, garantido=?, banner_path=?, grade_path=?, descricao=?, ordem=?, ativo=? WHERE id=?',
+      [etapa, nome, cidade, local_nome, data_display, data_fim, horario || 'A definir', garantido || null, banner_path, grade_path, descricao || '', parseInt(ordem) || 0, parseInt(ativo) ?? 1, req.params.id]
     );
 
     const rows = await query('SELECT * FROM events WHERE id = ?', [req.params.id]);

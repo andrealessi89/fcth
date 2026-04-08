@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS events (
   horario VARCHAR(100) DEFAULT 'A definir',
   garantido VARCHAR(100) DEFAULT NULL,
   banner_path VARCHAR(500) DEFAULT NULL,
+  grade_path VARCHAR(500) DEFAULT NULL,
   descricao TEXT,
   ordem INT DEFAULT 0,
   ativo TINYINT DEFAULT 1

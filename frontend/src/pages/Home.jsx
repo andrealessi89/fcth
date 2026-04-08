@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { Calendar, MapPin, Trophy, ChevronRight, Users, Award, Star, Instagram, Image, X, Medal } from 'lucide-react'
+import { Calendar, MapPin, Trophy, ChevronRight, Users, Award, Star, Instagram, Image, X, Medal, FileDown } from 'lucide-react'
 import { events as fallbackEvents } from '../data/mockData'
 import { useApi } from '../hooks/useApi'
 import { getEvents, getPartners, getContent, getRankings } from '../services/api'
@@ -81,6 +81,7 @@ export default function Home() {
     horario: e.horario,
     garantido: e.garantido,
     banner: e.banner_path || e.banner,
+    grade: e.grade_path || null,
     descricao: e.descricao,
   }))
 
@@ -218,6 +219,12 @@ export default function Home() {
                         <Image size={14} />
                         Banner Em Breve
                       </button>
+                    )}
+                    {evt.grade && (
+                      <a href={evt.grade} target="_blank" rel="noopener noreferrer" className="event-card__grade-link">
+                        <FileDown size={13} />
+                        Baixar grade do torneio
+                      </a>
                     )}
                   </div>
                   <div className="event-card__glow" />

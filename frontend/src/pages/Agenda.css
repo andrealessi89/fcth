@@ -589,3 +589,19 @@
     padding: 20px;
   }
 }
+
+/* Grade download link */
+.timeline-card__grade-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition);
+  letter-spacing: 0.02em;
+}
+
+.timeline-card__grade-link:hover {
+  color: #9b080e;
+}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
-import { Calendar, MapPin, Clock, Trophy, ChevronDown, Image, X } from 'lucide-react'
+import { Calendar, MapPin, Clock, Trophy, ChevronDown, Image, X, FileDown } from 'lucide-react'
 import { events as fallbackEvents } from '../data/mockData'
 import { useApi } from '../hooks/useApi'
 import { getEvents } from '../services/api'
@@ -79,6 +79,7 @@ export default function Agenda() {
     horario: e.horario,
     garantido: e.garantido,
     banner: e.banner_path || e.banner,
+    grade: e.grade_path || null,
     descricao: e.descricao,
   }))
 
@@ -165,6 +166,18 @@ export default function Agenda() {
                                 <Image size={14} />
                                 Ver Banner
                               </button>
+                            )}
+                            {evt.grade && (
+                              <a
+                                href={evt.grade}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="timeline-card__grade-link"
+                                onClick={e => e.stopPropagation()}
+                              >
+                                <FileDown size={13} />
+                                Baixar grade do torneio
+                              </a>
                             )}
                             <span className={`timeline-card__status ${isEncerrado ? 'timeline-card__status--encerrado' : ''}`}>
                               {isEncerrado ? 'Encerrado' : 'Em breve'}
